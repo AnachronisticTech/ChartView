@@ -5,24 +5,26 @@
 //  Created by András Samu on 2019. 06. 12..
 //  Copyright © 2019. András Samu. All rights reserved.
 //
+// Modified by Daniel Marriner on Fri 09 Oct 2020
+//
 
 import SwiftUI
 
 public struct UBarChartView: View {
     @Environment(\.colorScheme) var colorScheme: ColorScheme
-    var data: ChartData
-    var title: String
-    var legend: String? = nil
-    var style = Styles.barChartStyleOrangeLight {
+    public var data: ChartData
+    public var title: String
+    public var legend: String? = nil
+    public var style = Styles.barChartStyleOrangeLight {
         willSet {
             darkModeStyle = newValue.darkModeStyle ?? Styles.barChartStyleOrangeDark
         }
     }
-    var darkModeStyle = Styles.barChartStyleOrangeDark
-    var formSize: CGSize = ChartForm.medium
-    var dropShadow: Bool = true
-    var cornerImage = Image(systemName: "waveform.path.ecg")
-    var valueSpecifier: String = "%.1f"
+    public var darkModeStyle = Styles.barChartStyleOrangeDark
+    public var formSize: CGSize = ChartForm.medium
+    public var dropShadow: Bool = true
+    public var cornerImage = Image(systemName: "waveform.path.ecg")
+    public var valueSpecifier: String = "%.1f"
 
     @State private var touchLocation: CGFloat = -1.0
     @State private var showValue: Bool = false
