@@ -74,7 +74,7 @@ public struct BarChartView : View {
                         .imageScale(.large)
                         .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.legendTextColor : self.style.legendTextColor)
                 }.padding()
-                BarChartRow(data: data.points.map{$0.1},
+                BarChartRow(data: data.points.map{$0.point},
                             accentColor: self.colorScheme == .dark ? self.darkModeStyle.accentColor : self.style.accentColor,
                             gradient: self.colorScheme == .dark ? self.darkModeStyle.gradientColor : self.style.gradientColor,
                             touchLocation: self.$touchLocation)
@@ -132,7 +132,10 @@ public struct BarChartView : View {
     func getCurrentValue() -> (String,Double)? {
         guard self.data.points.count > 0 else { return nil}
         let index = max(0,min(self.data.points.count-1,Int(floor((self.touchLocation*self.formSize.width)/(self.formSize.width/CGFloat(self.data.points.count))))))
-        return self.data.points[index]
+//        return self.data.points[index]
+        let data = self.data.points[index]
+        return (data.string, data.point)
+
     }
 }
 

@@ -183,33 +183,59 @@ public class ChartStyle {
     }
 }
 
+public class ChartDataPoint: Identifiable, Hashable, ObservableObject {
+    public static func == (lhs: ChartDataPoint, rhs: ChartDataPoint) -> Bool {
+        return lhs.id == rhs.id
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+
+    public var id: UUID
+    var string: String
+    var point: Double
+
+    public init(_ string: String, _ point: Double) {
+        self.id = UUID()
+        self.string = string
+        self.point = point
+    }
+
+    public init(_ id: UUID? = nil, _ string: String, _ point: Double) {
+        self.id = id ?? UUID()
+        self.string = string
+        self.point = point
+    }
+}
+
 public class ChartData: ObservableObject, Identifiable {
-    @Published var points: [(String,Double)]
+    @Published var points: [ChartDataPoint]
     var valuesGiven: Bool = false
     var ID = UUID()
     
     public init<N: BinaryFloatingPoint>(points:[N]) {
-        self.points = points.map{("", Double($0))}
+        self.points = points.map{ChartDataPoint("", Double($0))}
     }
     public init<N: BinaryInteger>(values:[(String,N)]){
-        self.points = values.map{($0.0, Double($0.1))}
+        self.points = values.map{ChartDataPoint($0.0, Double($0.1))}
         self.valuesGiven = true
     }
     public init<N: BinaryFloatingPoint>(values:[(String,N)]){
-        self.points = values.map{($0.0, Double($0.1))}
+        self.points = values.map{ChartDataPoint($0.0, Double($0.1))}
         self.valuesGiven = true
     }
     public init<N: BinaryInteger>(numberValues:[(N,N)]){
-        self.points = numberValues.map{(String($0.0), Double($0.1))}
+        self.points = numberValues.map{ChartDataPoint(String($0.0), Double($0.1))}
         self.valuesGiven = true
     }
     public init<N: BinaryFloatingPoint & LosslessStringConvertible>(numberValues:[(N,N)]){
-        self.points = numberValues.map{(String($0.0), Double($0.1))}
+        self.points = numberValues.map{ChartDataPoint(String($0.0), Double($0.1))}
         self.valuesGiven = true
     }
     
     public func onlyPoints() -> [Double] {
-        return self.points.map{ $0.1 }
+        return self.points.map{ $0.point }
     }
 }
 
