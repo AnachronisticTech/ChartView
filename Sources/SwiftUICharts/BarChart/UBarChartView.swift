@@ -12,19 +12,39 @@ import SwiftUI
 
 public struct UBarChartView: View {
     @Environment(\.colorScheme) var colorScheme: ColorScheme
-    public var data: ChartData
-    public var title: String
-    public var legend: String? = nil
-    public var style = Styles.barChartStyleOrangeLight {
+    private var data: ChartData
+    private var title: String
+    private var legend: String? = nil
+    private var style = Styles.barChartStyleOrangeLight {
         willSet {
             darkModeStyle = newValue.darkModeStyle ?? Styles.barChartStyleOrangeDark
         }
     }
-    public var darkModeStyle = Styles.barChartStyleOrangeDark
-    public var formSize: CGSize = ChartForm.medium
-    public var dropShadow: Bool = true
-    public var cornerImage = Image(systemName: "waveform.path.ecg")
-    public var valueSpecifier: String = "%.1f"
+    private var darkModeStyle = Styles.barChartStyleOrangeDark
+    private var formSize: CGSize = ChartForm.medium
+    private var dropShadow: Bool = true
+    private var cornerImage = Image(systemName: "waveform.path.ecg")
+    private var valueSpecifier: String = "%.1f"
+
+    public init(
+        data: ChartData,
+        title: String,
+        legend: String? = nil,
+        style: ChartStyle = Styles.barChartStyleOrangeLight,
+        form: CGSize = ChartForm.medium,
+        dropShadow: Bool = true,
+        cornerImage: Image = Image(systemName: "waveform.path.ecg"),
+        valueSpecifier: String = "%.1f"
+    ) {
+        self.data = data
+        self.title = title
+        self.legend = legend
+        self.style = style
+        self.formSize = form
+        self.dropShadow = dropShadow
+        self.cornerImage = cornerImage
+        self.valueSpecifier = valueSpecifier
+    }
 
     @State private var touchLocation: CGFloat = -1.0
     @State private var showValue: Bool = false
@@ -139,10 +159,7 @@ public struct UBarChartView: View {
 }
 
 public struct UBarChartRow: View {
-//    @State
     var data: [ChartDataPoint]
-//    @State
-//    public private(set) var nData = [ChartDataPoint]()
     var accentColor: Color
     var gradient: GradientColor?
 
@@ -241,7 +258,7 @@ struct TempView: View {
                 data: dataSets[selection],
                 title: "Model 3 sales",
                 legend: "Quarterly",
-                formSize: ChartForm.extraLarge,
+                form: ChartForm.extraLarge,
                 valueSpecifier: "%.0f"
             )
             Text("Using set \(selection)")
